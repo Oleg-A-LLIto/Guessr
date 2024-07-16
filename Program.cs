@@ -1,81 +1,68 @@
-using Guessr;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Orleans;
 using Orleans.Configuration;
-using Orleans.Hosting;
-using System;
-using System.Threading.Tasks;
 
-namespace OrleansGuessr
+namespace Guessr
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             try
             {
-                var host = await StartSilo();
+                IHost host = await StartSilo();
                 Console.WriteLine("Silo started. Press any key to terminate...");
                 Console.ReadKey();
-
                 await host.StopAsync();
+                return 0; 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return;
+                return 1;
             }
         }
 
         private static async Task<IHost> StartSilo()
         {
             var builder = new HostBuilder()
-                .UseOrleans(silo =>
+            .UseOrleans(silo =>
                 {
                     silo
                         .UseLocalhostClustering()
                         .Configure<ClusterOptions>(options =>
                         {
                             options.ClusterId = "dev";
-                            options.ServiceId = "OrleansHelloWorld";
-                        })
-                        .ConfigureLogging(logging => logging.AddConsole());
+                            options.ServiceId = "Guessr";
+                        });
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureServices(services => // Add this block
+                    webBuilder.ConfigureServices(services =>
                     {
                         services.AddCors(options =>
                         {
                             options.AddDefaultPolicy(builder =>
                             {
-                                builder.AllowAnyOrigin()
-                                       .AllowAnyMethod() 
-                                       .AllowAnyHeader(); 
+                                builder
+                                    .AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader();
                             });
                         });
+                        services.AddControllers();
+                        services.AddSingleton<IMatchmakingService, MatchmakingService>();
                     });
-                    webBuilder.Configure(app =>
+                    webBuilder.Configure(app =>     // otherwise the web client just cries about the CORS
                     {
-                        app.UseCors(); 
+                        app.UseCors();
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
-                            endpoints.MapGet("/hello/{name}", async context =>
-                            {
-                                var grainFactory = context.RequestServices.GetService<IGrainFactory>();
-                                var helloWorldGrain = grainFactory.GetGrain<IGuessrGrain>(Guid.NewGuid());
-                                var result = await helloWorldGrain.SayHello(context.Request.RouteValues["name"]?.ToString() ?? "World");
-                                await context.Response.WriteAsync(result);
-                            });
+                            endpoints.MapControllers();
                         });
                     });
                 });
 
-            var host = builder.Build();
+            IHost host = builder.Build();
             await host.StartAsync();
             return host;
         }
