@@ -1,10 +1,12 @@
-﻿namespace Guessr.Grains
+﻿using Orleans.Providers;
+
+namespace Guessr.Grains
 {
     public interface IPlayerGrain : IGrainWithGuidKey
     {
         Task JoinQueue();
         Task JoinRoom(Guid roomId);
-        Task<int> MakeGuess(int guess); // 0 - game not concluded, 1 - you win, 2 - you lose, 3 - draw.
+        Task<int> MakeGuess(int guess); // 0 - game not concluded, 1 - you win, 2 - you lose, 3 - draw, also 4 is reserved for invalid inputs.
         Task<int> GetPoints();
         Task<int> GetResult();
         Task AddPoint();
@@ -12,19 +14,16 @@
         Task<Guid> GetRoomId();
     }
 
-    public interface IRoomGrain : IGrainWithGuidKey
+    [Serializable]
+    public class PlayerScore
     {
-        Task<bool> StartGame();
-        Task<int> ProcessGuess(Guid playerId, int guess);
-        Task<int> GetResult(Guid playerId);
-        Task<Dictionary<Guid, int>> GetCurrentRoundGuesses();
-        Task AddPlayer(Guid playerId);
+        public int Score { get; set; }
     }
 
-    public class PlayerGrain : Grain, IPlayerGrain
+    [StorageProvider(ProviderName = "PlayerStore")]
+    public class PlayerGrain : Grain<PlayerScore>, IPlayerGrain
     {
         private Guid _currentRoomId = Guid.Empty;
-        private int _score;
 
         public async Task<int> GetResult()
         {
@@ -49,19 +48,19 @@
         public async Task<int> MakeGuess(int guess)
         {
             Console.WriteLine($"Player {this.GetPrimaryKey()} guessed {guess} in room {_currentRoomId}.");
-            IRoomGrain roomGrain = GrainFactory.GetGrain<IRoomGrain>(_currentRoomId); 
+            IRoomGrain roomGrain = GrainFactory.GetGrain<IRoomGrain>(_currentRoomId);
             return await roomGrain.ProcessGuess(this.GetPrimaryKey(), guess);
         }
 
         public Task<int> GetPoints()
         {
-            return Task.FromResult(_score);
+            return Task.FromResult(State.Score);
         }
 
-        public Task AddPoint()
+        public async Task AddPoint()
         {
-            _score++;
-            return Task.CompletedTask;
+            State.Score++;
+            await WriteStateAsync(); // Persist the state
         }
 
         public Task LeaveRoom()
@@ -75,6 +74,15 @@
         {
             return Task.FromResult(_currentRoomId);
         }
+    }
+
+    public interface IRoomGrain : IGrainWithGuidKey
+    {
+        Task<bool> StartGame();
+        Task<int> ProcessGuess(Guid playerId, int guess);
+        Task<int> GetResult(Guid playerId);
+        Task<Dictionary<Guid, int>> GetCurrentRoundGuesses();
+        Task AddPlayer(Guid playerId);
     }
 
     public class RoomGrain : Grain, IRoomGrain

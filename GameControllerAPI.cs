@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Orleans;
-using System;
-using System.Threading.Tasks;
-using Guessr;
 using Guessr.Grains;
 
 namespace Guessr.Controllers
 {
     [ApiController]
-    [Route("api/game")]
+    [Route("game")]
     public class GameController : ControllerBase
     {
         private readonly IClusterClient _client;
@@ -58,8 +54,13 @@ namespace Guessr.Controllers
         {
             Console.WriteLine($"API: Player {playerId} attempting to make a guess: {guess}");
             IPlayerGrain playerGrain = _client.GetGrain<IPlayerGrain>(playerId);
-            int result = await playerGrain.MakeGuess(guess);
-            return Ok(new { message = $"Your guess is {guess}.", gameResult = result });
+            if (guess >= 0 && guess <= 100)
+            {
+                int result = await playerGrain.MakeGuess(guess);
+                return Ok(new { message = $"Your guess is {guess}.", gameResult = result });
+            }
+            return Ok(new { message = $"Your guess is {guess}, which is invalid. Please enter a valid number from 0 to 100. " +
+                $"Also what is up with your client? Frontend is supposed to handle that input.", gameResult = 4 });
         }
 
         [HttpGet("pollGameStatus")]

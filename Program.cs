@@ -8,11 +8,16 @@ namespace Guessr
         {
             try
             {
-                IHost host = await StartSilo();
+                var configuration = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                IHost host = await StartSilo(configuration);
+
                 Console.WriteLine("Silo started. Press any key to terminate...");
                 Console.ReadKey();
                 await host.StopAsync();
-                return 0; 
+                return 0;
             }
             catch (Exception ex)
             {
@@ -21,24 +26,30 @@ namespace Guessr
             }
         }
 
-        private static async Task<IHost> StartSilo()
+        private static async Task<IHost> StartSilo(IConfiguration configuration)
         {
-            var builder = new HostBuilder()
-            .UseOrleans(silo =>
+            IHostBuilder builder = new HostBuilder()
+                .UseOrleans(silo =>
                 {
+                    var connectionString = configuration.GetConnectionString("OrleansDb");
+
                     silo
                         .UseLocalhostClustering()
+                        .AddAdoNetGrainStorage("PlayerStore", options =>
+                        {
+                            options.Invariant = "System.Data.SqlClient";
+                            options.ConnectionString = connectionString;
+                        })
                         .Configure<ClusterOptions>(options =>
                         {
                             options.ClusterId = "dev";
                             options.ServiceId = "Guessr";
                         });
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
+                }).ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureServices(services =>
                     {
-                        services.AddCors(options =>
+                        services.AddCors(options => // otherwise the web client just cries about the CORS
                         {
                             options.AddDefaultPolicy(builder =>
                             {
@@ -51,7 +62,7 @@ namespace Guessr
                         services.AddControllers();
                         services.AddSingleton<IMatchmakingService, MatchmakingService>();
                     });
-                    webBuilder.Configure(app =>     // otherwise the web client just cries about the CORS
+                    webBuilder.Configure(app =>
                     {
                         app.UseCors();
                         app.UseRouting();
