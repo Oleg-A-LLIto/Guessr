@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Fedol\\source\\repos\\Guessr\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D28F1699-7586-4EA1-AB04-8915E2E1F9D1}|GuessrServer\\Guessr.csproj|c:\\users\\fedol\\source\\repos\\guessr\\guessrserver\\grains.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D28F1699-7586-4EA1-AB04-8915E2E1F9D1}|GuessrServer\\Guessr.csproj|solutionrelative:guessrserver\\grains.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1AB73AE9-A8A7-44AF-B466-80CCE02A0C35}|GuessrClient\\GuessrClient.csproj|c:\\users\\fedol\\source\\repos\\guessr\\guessrclient\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AB73AE9-A8A7-44AF-B466-80CCE02A0C35}|GuessrClient\\GuessrClient.csproj|solutionrelative:guessrclient\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -16,10 +20,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D28F1699-7586-4EA1-AB04-8915E2E1F9D1}|GuessrServer\\Guessr.csproj|c:\\users\\fedol\\source\\repos\\guessr\\guessrserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D28F1699-7586-4EA1-AB04-8915E2E1F9D1}|GuessrServer\\Guessr.csproj|solutionrelative:guessrserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D28F1699-7586-4EA1-AB04-8915E2E1F9D1}|GuessrServer\\Guessr.csproj|c:\\users\\fedol\\source\\repos\\guessr\\guessrserver\\grains.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D28F1699-7586-4EA1-AB04-8915E2E1F9D1}|GuessrServer\\Guessr.csproj|solutionrelative:guessrserver\\grains.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D28F1699-7586-4EA1-AB04-8915E2E1F9D1}|GuessrServer\\Guessr.csproj|c:\\users\\fedol\\source\\repos\\guessr\\guessrserver\\gamecontrollerapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -41,11 +41,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GuessrClient.csproj",
               "DocumentMoniker": "C:\\Users\\Fedol\\source\\repos\\Guessr\\GuessrClient\\GuessrClient.csproj",
               "RelativeDocumentMoniker": "GuessrClient\\GuessrClient.csproj",
@@ -57,7 +57,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ClientClusteringValidator.cs",
               "DocumentMoniker": "C:\\Users\\Fedol\\AppData\\Local\\SourceServer\\d8802afa614e207581b9a554da0d137863cdfa6b5a5965d66eb6afa63d97cff7\\src\\Orleans.Core\\Configuration\\Validators\\ClientClusteringValidator.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\SourceServer\\d8802afa614e207581b9a554da0d137863cdfa6b5a5965d66eb6afa63d97cff7\\src\\Orleans.Core\\Configuration\\Validators\\ClientClusteringValidator.cs",
@@ -69,20 +69,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Fedol\\source\\repos\\Guessr\\GuessrClient\\Program.cs",
               "RelativeDocumentMoniker": "GuessrClient\\Program.cs",
               "ToolTip": "C:\\Users\\Fedol\\source\\repos\\Guessr\\GuessrClient\\Program.cs",
               "RelativeToolTip": "GuessrClient\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAARAAAA",
+              "ViewState": "AQIAAH8AAAAAAAAAAAAcwAcAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-19T10:16:01.206Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Fedol\\source\\repos\\Guessr\\GuessrServer\\Program.cs",
               "RelativeDocumentMoniker": "GuessrServer\\Program.cs",
@@ -106,15 +106,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "Grains.cs",
               "DocumentMoniker": "C:\\Users\\Fedol\\source\\repos\\Guessr\\GuessrServer\\Grains.cs",
               "RelativeDocumentMoniker": "GuessrServer\\Grains.cs",
               "ToolTip": "C:\\Users\\Fedol\\source\\repos\\Guessr\\GuessrServer\\Grains.cs",
               "RelativeToolTip": "GuessrServer\\Grains.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAADwvysAAAA1AAAA",
+              "ViewState": "AQIAAIEAAAAAAAAAAAAUwEUAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T18:02:37.393Z"
+              "WhenOpened": "2024-07-18T18:02:37.393Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

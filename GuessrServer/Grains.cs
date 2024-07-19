@@ -67,7 +67,7 @@ namespace Guessr.Grains
         public async Task AddPoint()
         {
             State.Score++;
-            await WriteStateAsync(); // Persist the state
+            await WriteStateAsync();
         }
 
         public Task LeaveRoom()
@@ -133,7 +133,8 @@ namespace Guessr.Grains
 
         private Guid GetWinner()
         {
-            if (_currentRoundGuesses.First().Value == _currentRoundGuesses.Last().Value)
+            if (Math.Abs(_currentRoundGuesses.First().Value - _targetNumber) ==
+                Math.Abs(_currentRoundGuesses.Last().Value - _targetNumber))
                 return Guid.Empty;
 
             Guid winner = _currentRoundGuesses
