@@ -24,6 +24,12 @@ namespace Guessr.Grains
     public class PlayerGrain : Grain<PlayerScore>, IPlayerGrain
     {
         private Guid _currentRoomId = Guid.Empty;
+        private IMatchmakingService _mms;
+
+        public PlayerGrain(IMatchmakingService matchmakingService)
+        {
+            _mms = matchmakingService;
+        }
 
         public async Task<int> GetResult()
         {
@@ -35,6 +41,7 @@ namespace Guessr.Grains
         {
             Console.WriteLine($"Player {this.GetPrimaryKey()} joined the queue.");
             _currentRoomId = Guid.Empty;
+            _mms.EnqueuePlayer(this.GetPrimaryKey());
             return Task.CompletedTask;
         }
 

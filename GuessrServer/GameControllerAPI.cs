@@ -8,12 +8,10 @@ namespace Guessr.Controllers
     public class GameController : ControllerBase
     {
         private readonly IClusterClient _client;
-        private readonly IMatchmakingService _matchmakingService;
 
-        public GameController(IClusterClient client, IMatchmakingService matchmakingService)
+        public GameController(IClusterClient client)
         {
             _client = client;
-            _matchmakingService = matchmakingService;
         }
 
         [HttpGet("joinQueue")]
@@ -21,7 +19,6 @@ namespace Guessr.Controllers
         {
             IPlayerGrain playerGrain = _client.GetGrain<IPlayerGrain>(playerId);
             await playerGrain.JoinQueue();
-            _matchmakingService.EnqueuePlayer(playerId);
             return Ok(new { message = $"Successfully joined the queue.", playerId = playerId   });
         }
 
