@@ -50,14 +50,6 @@
               "target": "Package",
               "version": "[5.3.0, )"
             },
-            "Microsoft.Data.Sqlite.Core": {
-              "target": "Package",
-              "version": "[8.0.7, )"
-            },
-            "Microsoft.EntityFrameworkCore.Sqlite": {
-              "target": "Package",
-              "version": "[8.0.7, )"
-            },
             "Microsoft.Extensions.Logging.Console": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -76,10 +68,6 @@
               "target": "Package",
               "version": "[8.2.0, )"
             },
-            "Microsoft.Orleans.Persistence.DynamoDB": {
-              "target": "Package",
-              "version": "[8.2.0, )"
-            },
             "Microsoft.Orleans.Persistence.Memory": {
               "target": "Package",
               "version": "[8.2.0, )"
@@ -87,10 +75,6 @@
             "Microsoft.Orleans.Server": {
               "target": "Package",
               "version": "[8.2.0, )"
-            },
-            "Orleans.StorageProviders.SimpleSQLServerStorage": {
-              "target": "Package",
-              "version": "[1.5.17, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
